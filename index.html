@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>寻宝游戏</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="player-info">
+        <h2>玩家信息</h2>
+        <div id="player-details"></div>
+        <button onclick="game.toggleMusic()">播放/暂停音乐</button>
+    </div>
+    
+    <div id="game-container">
+        <div class="loading">正在加载游戏数据...</div>
+    </div>
+    
+    <div id="history-container">
+        <h3>游戏历史</h3>
+        <div id="history-list"></div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script>
+        // 等待 DOM 加载完成
+        document.addEventListener('DOMContentLoaded', () => {
+            // 游戏实例已经在 game.js 中创建为全局变量
+            const playerDetails = document.getElementById('player-details');
+            playerDetails.innerHTML = `
+                <p>ID: ${game.playerInfo.id}</p>
+                <p>昵称: ${game.playerInfo.nickname}</p>
+            `;
+            
+            function updateHistory() {
+                const historyList = document.getElementById('history-list');
+                historyList.innerHTML = game.playerInfo.history
+                    .map(h => `<div>${new Date(h.timestamp).toLocaleString()} - ${h.action}</div>`)
+                    .join('');
+            }
+            updateHistory();
+        });
+    </script>
+</body>
+</html> 
